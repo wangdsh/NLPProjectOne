@@ -4,6 +4,7 @@ import xml.sax
 import logging
 import os.path
 import sys
+import re
 
 
 global global_qsubject
@@ -13,6 +14,7 @@ fp = ""
 global_qtype = ""
 has_url = 0
 count = 0
+c_subject_body = ""
 
 
 class MyXMLHandler(xml.sax.ContentHandler):
@@ -40,24 +42,27 @@ class MyXMLHandler(xml.sax.ContentHandler):
 
     # 元素结束事件处理
     def endElement(self, tag):
+        url_pattern = '(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?'
         if tag == 'Question':
             global global_qtype
             global_qtype = ""
         if tag == 'CSubject':
-            if self.CSubject.find("http") != -1:
-                global has_url
-                has_url += 1
+            global c_subject_body
+            c_subject_body += "\t" + self.CSubject.replace("\t", "").replace("\n", " ").strip()
+
         if tag == 'CBody' and self.cbody:
-            if self.CBody.find("http") != -1:
-                has_url += 1
+            c_subject_body += "\t" + self.CBody.replace("\t", "").replace("\n", " ").strip()
+
             self.cbody = False
             self.CBody = ""
         if tag == 'Comment':
-            if has_url > 0:
+
+            if re.search(url_pattern, c_subject_body):
                 self.comment_line += "\t1"
             else:
                 self.comment_line += "\t0"
-            # print self.comment_line
+            print self.comment_line
+
             global count
             count += 1
             if count % 200 == 0:
@@ -67,6 +72,7 @@ class MyXMLHandler(xml.sax.ContentHandler):
             #     fp.write(self.comment_line + '\n')
             fp.write(self.comment_line + '\n')
             self.comment_line = ""
+            c_subject_body = ""
             has_url = 0
 
     # 内容事件处理

@@ -1,13 +1,18 @@
 # -*- coding: UTF-8 -*-
 
 import xml.sax
+import logging
+import os.path
+import sys
+
 
 global global_qsubject
-global_qsubject = ""
-global_qbody = ""
-fp = open('result_has_url.txt', 'wb')
+input_file = ""
+output_file = ""
+fp = ""
 global_qtype = ""
 has_url = 0
+count = 0
 
 
 class MyXMLHandler(xml.sax.ContentHandler):
@@ -17,6 +22,8 @@ class MyXMLHandler(xml.sax.ContentHandler):
         self.CBody = ""
         self.cbody = False
         self.comment_line = ""
+        global fp
+        fp = open(output_file, 'wb')
 
     # 元素开始事件处理
     def startElement(self, tag, attributes):
@@ -50,7 +57,11 @@ class MyXMLHandler(xml.sax.ContentHandler):
                 self.comment_line += "\t1"
             else:
                 self.comment_line += "\t0"
-            print self.comment_line
+            # print self.comment_line
+            global count
+            count += 1
+            if count % 200 == 0:
+                logger.info("Process " + str(count) + " comments")
             # global_qtype
             # if global_qtype == "GENERAL":
             #     fp.write(self.comment_line + '\n')
@@ -67,6 +78,21 @@ class MyXMLHandler(xml.sax.ContentHandler):
 
 
 if __name__ == '__main__':
+    program = os.path.basename(sys.argv[0])
+    logger = logging.getLogger(program)
+
+    logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s')
+    logging.root.setLevel(level=logging.INFO)
+    logger.info("running %s" % ' '.join(sys.argv))
+
+    # check and process input arguments
+    if len(sys.argv) < 3:
+        # logger.error("Usage example: python ParseXML_has_url.py ../../CQA-QL-train.xml result_train_has_url.txt")
+        # logger.error("Usage example: python ParseXML_has_url.py ../../CQA-QL-devel.xml result_devel_has_url.txt")
+        logger.error("Usage example: python ParseXML_has_url.py ../../test_task3_English.xml result_test_has_url.txt")
+        sys.exit(1)
+    input_file, output_file = sys.argv[1:3]
+
     # 创建一个 XMLReader
     parser = xml.sax.make_parser()
     # turn off namepsaces
@@ -76,5 +102,5 @@ if __name__ == '__main__':
     Handler = MyXMLHandler()
     parser.setContentHandler(Handler)
 
-    parser.parse("CQA-QL-train.xml")
+    parser.parse(input_file)
     fp.close()

@@ -1,0 +1,1 @@
+type bank account open salary current account salary transfer get interest current account

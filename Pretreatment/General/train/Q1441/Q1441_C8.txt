@@ -1,0 +1,1 @@
+option option bank take money give exact amount credit pay internet card

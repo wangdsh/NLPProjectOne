@@ -1,0 +1,1 @@
+router router configure act server connection check router wan light active need configure ip manually

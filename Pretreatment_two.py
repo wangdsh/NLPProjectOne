@@ -5,9 +5,13 @@ from PretreatmentUtil import PretreatmentUtil
 
 if __name__ == '__main__':
     pre_util = PretreatmentUtil()
-    base_dir = "General/devel/"
+    # base_dir = "General/devel/"
+    # base_dir = "YesNo/devel/"
+    base_dir = "YesNo/train/"
     # base_dir = "General/train/"
-    fp = open('General/pretreatment_one_result_devel_general.txt', 'r')  # read file
+    # fp = open('General/pretreatment_one_result_devel_general.txt', 'r')  # read file
+    # fp = open('YesNo/pretreatment_one_result_devel_yesno.txt', 'r')  # read file
+    fp = open('YesNo/pretreatment_one_result_train_yesno.txt', 'r')  # read file
     # fp = open('General/pretreatment_one_result_train_general.txt', 'r')  # read file
     is_qid = True
     qid = ""

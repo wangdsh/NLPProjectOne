@@ -5,7 +5,8 @@ import xml.sax
 global global_qsubject
 global_qsubject = ""
 global_qbody = ""
-fp = open('General/pretreatment_one_result_devel_general.txt', 'wb')
+# fp = open('General/pretreatment_one_result_devel_general.txt', 'wb')
+fp = open('General/pretreatment_one_result_train_yesno.txt', 'wb')
 global_qtype = ""
 
 
@@ -48,7 +49,8 @@ class MyXMLHandler(xml.sax.ContentHandler):
             global global_qbody
             global_qbody = ""
             global global_qtype
-            if global_qtype == "GENERAL":
+            # if global_qtype == "GENERAL":
+            if global_qtype == "YES_NO":
                 fp.write(self.comment_line + '\n')
                 print self.comment_line
             self.comment_line = ""
@@ -102,6 +104,6 @@ if __name__ == '__main__':
     Handler = MyXMLHandler()
     parser.setContentHandler(Handler)
 
-    parser.parse("CQA-QL-devel.xml")
-    # parser.parse("CQA-QL-train.xml")
+    # parser.parse("CQA-QL-devel.xml")
+    parser.parse("CQA-QL-train.xml")
     fp.close()

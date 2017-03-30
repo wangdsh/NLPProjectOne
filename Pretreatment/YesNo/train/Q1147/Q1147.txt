@@ -1,0 +1,1 @@
+dentist dentist equal doctor dentist get degree doctor

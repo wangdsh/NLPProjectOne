@@ -1,0 +1,1 @@
+make map location get piece paper pen start drawing

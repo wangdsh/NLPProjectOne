@@ -1,0 +1,1 @@
+allow cucumber allow cucumber france germany spain test certificate

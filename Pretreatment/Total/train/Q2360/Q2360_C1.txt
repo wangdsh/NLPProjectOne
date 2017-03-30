@@ -1,0 +1,1 @@
+exit permit exit permit also show name nationality destination

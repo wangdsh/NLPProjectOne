@@ -4,6 +4,7 @@ import xml.sax
 import logging
 import os.path
 import sys
+import re
 
 
 global global_qsubject
@@ -40,6 +41,7 @@ class MyXMLHandler(xml.sax.ContentHandler):
 
     # 元素结束事件处理
     def endElement(self, tag):
+        pattern = '(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?'
         if tag == 'Question':
             global global_qtype
             global_qtype = ""
@@ -47,11 +49,17 @@ class MyXMLHandler(xml.sax.ContentHandler):
             if self.CSubject.find("http") != -1:
                 global has_url
                 has_url += 1
+            if re.match(pattern, self.CSubject):
+                print self.CSubject
+                print 'url'
         if tag == 'CBody' and self.cbody:
             if self.CBody.find("http") != -1:
                 has_url += 1
             self.cbody = False
             self.CBody = ""
+            if re.match(pattern, self.CBody.strip()):
+                print self.CBody
+                print 'url'
         if tag == 'Comment':
             if has_url > 0:
                 self.comment_line += "\t1"

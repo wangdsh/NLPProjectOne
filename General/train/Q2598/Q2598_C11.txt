@@ -1,0 +1,1 @@
+using router using router try assign static ip dint yes disable router

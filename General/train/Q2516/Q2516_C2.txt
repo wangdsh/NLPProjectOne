@@ -1,0 +1,1 @@
+microphone working check sound setting there option automate volume

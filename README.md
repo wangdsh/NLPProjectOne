@@ -30,3 +30,6 @@ ParseXML_metadata.py：获取train,dev,test的元数据信息
 
 ## feature/cuserEqualquser
 cuserEqualquser.py：判断question的用户ID和comment的用户ID是否相同
+
+## feature/category_probability
+category_probability.py：记录每个种类的问题，各种标签的概率

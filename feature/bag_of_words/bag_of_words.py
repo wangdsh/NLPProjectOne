@@ -1,19 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-import sys
+# calculate two string words vector
 
-# train
-#
-
-#-*- coding:utf-8 -*-
-# AUTHOR:   yaolili
-# FILE:     bagOfWords.py
-# ROLE:     given two sentences, build bag of words model.
-# CREATED:  2015-12-12 10:42:19
-# MODIFIED: 2015-12-12 10:42:27
-
-import os
-import sys
 import copy
 
 class BOW:

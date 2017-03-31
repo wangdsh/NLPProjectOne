@@ -1,20 +1,17 @@
 # -*- coding: UTF-8 -*-
 
 import xml.sax
+import sys
 
 global global_qsubject
 global_qsubject = ""
 global_qbody = ""
-# fp = open('General/pretreatment_one_result_devel_general.txt', 'wb')
-# fp = open('General/pretreatment_one_result_train_yesno.txt', 'wb')
-# fp = open('Pretreatment/Total/pretreatment_one_result_train_total.txt', 'wb')
-# fp = open('Pretreatment/Total/pretreatment_one_result_devel_total.txt', 'wb')
-fp = open('Pretreatment/Total/pretreatment_one_result_test_total.txt', 'wb')
 global_qtype = ""
 
 
 class MyXMLHandler(xml.sax.ContentHandler):
-    def __init__(self):
+    def __init__(self, fp):
+        self.fp = fp
         self.CurrentData = ""
         self.QID = ""
         self.QSubject = ""
@@ -29,8 +26,9 @@ class MyXMLHandler(xml.sax.ContentHandler):
     def startElement(self, tag, attributes):
         self.CurrentData = tag
         if tag == 'Comment':
-            if 'CID' in attributes:
-                self.comment_line += attributes['CID']
+            pass
+            # if 'CID' in attributes:
+            #     self.comment_line += attributes['CID']
             # if 'CGOLD' in attributes:
             #     self.comment_line += "\t" + attributes['CGOLD']
         if tag == 'QBody':
@@ -54,18 +52,20 @@ class MyXMLHandler(xml.sax.ContentHandler):
             global global_qtype
             # if global_qtype == "GENERAL":
             if global_qtype == "YES_NO" or global_qtype == "GENERAL":
-                fp.write(self.comment_line + '\n')
+                self.fp.write(self.comment_line)
                 print self.comment_line
             self.comment_line = ""
             global_qtype = ""
         if tag == 'QSubject':
-            self.comment_line += self.QID + "\t" + self.QSubject
+            # self.comment_line += self.QID + "\t" + self.QSubject
+            self.comment_line += self.QSubject
         if tag == "QBody":
             self.comment_line += " " + self.QBody.replace("\t", "").replace("\n", " ").strip() + "\n"
             self.qbody = False
             self.QBody = ""
         if tag == 'CSubject':
-            self.comment_line += "\t" + self.CSubject
+            # self.comment_line += "\t" + self.CSubject
+            self.comment_line += self.CSubject
         if tag == 'CBody' and self.cbody:
             self.comment_line += " " + self.CBody.replace("\t", "").replace("\n", " ").strip() + "\n"
             self.cbody = False
@@ -98,16 +98,28 @@ class MyXMLHandler(xml.sax.ContentHandler):
 
 
 if __name__ == '__main__':
+
+    if len(sys.argv) < 3:
+        print "sys.argv[1]: Input File Path"
+        print "sys.argv[2]: Output File Path"
+        exit()
+
+    fp = open(sys.argv[2], 'wb')
+
     # 创建一个 XMLReader
     parser = xml.sax.make_parser()
     # turn off namepsaces
     parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
     # 重写 ContextHandler
-    Handler = MyXMLHandler()
+    Handler = MyXMLHandler(fp)
     parser.setContentHandler(Handler)
 
-    # parser.parse("CQA-QL-devel.xml")
-    parser.parse("test_task3_English.xml")
-    # parser.parse("CQA-QL-train.xml")
+    parser.parse(sys.argv[1])
     fp.close()
+
+# python Pretreatment_one_2.py ../CQA-QL-devel.xml Total/pretreatment_one_result_devel_total_2.txt
+
+# python Pretreatment_one_2.py ../CQA-QL-train.xml Total/pretreatment_one_result_train_total_2.txt
+
+# python Pretreatment_one_2.py ../test_task3_English.xml Total/pretreatment_one_result_test_total_2.txt

@@ -7,6 +7,7 @@ from gensim import corpora
 import gensim
 import numpy
 import sys
+
 from scipy import linalg, mat, dot
 
 
@@ -36,6 +37,8 @@ class LDA_Util:
 
     def getLDASim(self, line_num_one, line_num_two):  # num start from 0
         return self.cosine(self.model[line_num_one], self.model[line_num_two])
+
+
 
 
 def get_doc_set(input_fp):

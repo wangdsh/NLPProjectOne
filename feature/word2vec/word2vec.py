@@ -29,17 +29,17 @@ if __name__ == '__main__':
 
     # trim unneeded model memory = use(much) less RAM
     #model.init_sims(replace=True)
-    model.wv.save(outp1)
+    # model.wv.save(outp1)
     model.wv.save_word2vec_format(outp2, binary=False)
 
 
 
 # train
-# python word2vec.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./total.model ./total.vector
+# python word2vec.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./train_w2v.model ./train_w2v.vector
 
 # dev and test ignore
 # dev
-# python category_probability.py ../metainfo/dev/metadata_total.txt 1
+# python word2vec.py ../../Pretreatment/Total/pretreatment_one_result_devel_total_2.txt ./devel_w2v.model ./devel_w2v.vector
 
 # test
-# python category_probability.py ../metainfo/test/metadata_total.txt 2
+# python word2vec.py ../../Pretreatment/Total/pretreatment_one_result_test_total_2.txt ./test_w2v.model ./test_w2v.vector

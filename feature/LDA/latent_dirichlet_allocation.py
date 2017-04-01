@@ -16,6 +16,15 @@ doc_d = "I often feel pressure to perform well at school, but my mother never se
 doc_e = "Health professionals say that brocolli is good for your health."
 
 
+
+def getLDAList(lda_result_file_path):
+    lda_list = []
+    fp = open(lda_result_file_path, "r")
+    for line in fp:
+        lda_list.append(line.strip())
+    fp.close()
+    return lda_list
+
 def get_doc_set(input_fp):
     file_list = []
     for line in input_fp:

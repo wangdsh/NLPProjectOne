@@ -8,23 +8,6 @@ import gensim
 import numpy
 import sys
 
-# sample documents
-doc_a = "Brocolli is good to eat. My brother likes to eat good brocolli, but not my mother."
-doc_b = "My mother spends a lot of time driving my brother around to baseball practice."
-doc_c = "Some health experts suggest that driving may cause increased tension and blood pressure."
-doc_d = "I often feel pressure to perform well at school, but my mother never seems to drive my brother to do better."
-doc_e = "Health professionals say that brocolli is good for your health."
-
-
-
-def getLDAList(lda_result_file_path):
-    lda_list = []
-    fp = open(lda_result_file_path, "r")
-    for line in fp:
-        lda_list.append(line.strip())
-    fp.close()
-    return lda_list
-
 def get_doc_set(input_fp):
     file_list = []
     for line in input_fp:

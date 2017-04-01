@@ -3,6 +3,7 @@
 # calculate two string words vector
 
 import copy
+from scipy import linalg, mat, dot
 
 class BOW:
     def __init__(self, s1, s2):
@@ -36,3 +37,13 @@ class BOW:
             vector1.append(self.bag1[word])
             vector2.append(self.bag2[word])
         return vector1, vector2
+
+    def cosine(self, list1, list2):
+        a = mat(list1)
+        b = mat(list2)
+        c = dot(a, b.T) / linalg.norm(a) / linalg.norm(b)
+        return c[0, 0]
+
+    def getVectorSim(self):
+        v1, v2 = self.getVector()
+        return self.cosine(v1, v2)

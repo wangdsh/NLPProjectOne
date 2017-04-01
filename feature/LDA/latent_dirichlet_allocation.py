@@ -77,16 +77,21 @@ if __name__ == "__main__":
 
     # generate LDA model
     lda_num_topics = 10  # 主题数量，根据情况设置
-    lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=lda_num_topics, id2word=dictionary, passes=20)
+    lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=lda_num_topics, id2word=dictionary, passes=20,
+                                                minimum_probability=1e-8)
     # print(lda_model.print_topics(num_topics=lda_num_topics, num_words=4))
 
     for text in texts:
         topic_distributions = lda_model[dictionary.doc2bow(text)]
         print topic_distributions
-        topic_distributions_list = []
+        topic_distributions_list = [1e-8 for x in range(0, 10)]
         for each in topic_distributions:
-            topic_distributions_list.append(each[1])
-        fp_result.write("\t".join(str(td) for td in topic_distributions_list))
+            # topic_distributions_list.append(each[1])
+            topic_distributions_list[each[0]] = each[1]
+            # print each[1], str(each[1])
+        one_line = "\t".join(str(td) for td in topic_distributions_list)
+        print one_line
+        fp_result.write(one_line)
         fp_result.write("\n")
 
     fp.close()
@@ -94,8 +99,8 @@ if __name__ == "__main__":
 
     # print hellinger(lda_model[corpus[0]], lda_model[corpus[1]], lda_model.num_topics)
 
-# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_devel_total_3.txt ./result_lda_devel.txt
+# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_devel_total_2.txt ./result_lda_devel.txt
 
-# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_train_total_3.txt ./result_lda_train.txt
+# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./result_lda_train.txt
 
-# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_test_total_3.txt ./result_lda_test.txt
+# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_test_total_2.txt ./result_lda_test.txt

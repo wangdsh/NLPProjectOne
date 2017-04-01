@@ -9,7 +9,8 @@ global_qbody = ""
 # fp = open('General/pretreatment_one_result_train_yesno.txt', 'wb')
 # fp = open('Pretreatment/Total/pretreatment_one_result_train_total.txt', 'wb')
 # fp = open('Pretreatment/Total/pretreatment_one_result_devel_total.txt', 'wb')
-fp = open('Pretreatment/Total/pretreatment_one_result_test_total.txt', 'wb')
+# fp = open('Pretreatment/Total/pretreatment_one_result_test_total.txt', 'wb')
+fp = open('Pretreatment/Total/pretreatment_one_result_test_total_no_blank.txt', 'wb')
 global_qtype = ""
 
 
@@ -54,7 +55,8 @@ class MyXMLHandler(xml.sax.ContentHandler):
             global global_qtype
             # if global_qtype == "GENERAL":
             if global_qtype == "YES_NO" or global_qtype == "GENERAL":
-                fp.write(self.comment_line + '\n')
+                # fp.write(self.comment_line + '\n')
+                fp.write(self.comment_line)
                 print self.comment_line
             self.comment_line = ""
             global_qtype = ""

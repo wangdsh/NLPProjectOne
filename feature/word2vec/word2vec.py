@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
 
 # train
-# python word2vec.py ../../Pretreatment/General/pretreatment_one_result_train_general.txt ./train.model ./train.vector
+# python word2vec.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./total.model ./total.vector
 
 # dev and test ignore
 # dev

@@ -7,13 +7,35 @@ from gensim import corpora
 import gensim
 import numpy
 import sys
+from scipy import linalg, mat, dot
 
-# sample documents
-doc_a = "Brocolli is good to eat. My brother likes to eat good brocolli, but not my mother."
-doc_b = "My mother spends a lot of time driving my brother around to baseball practice."
-doc_c = "Some health experts suggest that driving may cause increased tension and blood pressure."
-doc_d = "I often feel pressure to perform well at school, but my mother never seems to drive my brother to do better."
-doc_e = "Health professionals say that brocolli is good for your health."
+
+class LDA_Util:
+    def __init__(self, step):  # step 0 train  1 devel  2 test
+        if step == 0:
+            file_path = "./result_lda_train.txt"
+        elif step == 1:
+            file_path = "./result_lda_devel.txt"
+        elif step == 2:
+            file_path = "./result_lda_test.txt"
+        self.model = self.load_file(file_path)
+
+    def load_file(self, lda_result_file_path):
+        lda_list = []
+        fp = open(lda_result_file_path, "r")
+        for line in fp:
+            lda_list.append(line.strip())
+        fp.close()
+        return lda_list
+
+    def cosine(self, list1, list2):
+        a = mat(list1)
+        b = mat(list2)
+        c = dot(a, b.T) / linalg.norm(a) / linalg.norm(b)
+        return c[0, 0]
+
+    def getLDASim(self, line_num_one, line_num_two):  # num start from 0
+        return self.cosine(self.model[line_num_one], self.model[line_num_two])
 
 
 def get_doc_set(input_fp):

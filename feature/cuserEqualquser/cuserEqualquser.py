@@ -2,6 +2,32 @@
 
 import sys
 
+
+class cuserEqualquser_Util:
+    def __init__(self, step):  # step 0 train  1 devel  2 test
+        if step == 0:
+            file_path = "./train_cuserEqualquser.txt"
+        elif step == 1:
+            file_path = "./dev_cuserEqualquser.txt"
+        elif step == 2:
+            file_path = "./test_cuserEqualquser.txt"
+        self.model = self.load_file(file_path)
+
+    def load_file(self, lda_result_file_path):
+        lda_dic = {}
+        fp = open(lda_result_file_path, "r")
+        for line in fp:
+            if line.strip() == "":
+                continue
+            line = line.strip().split("\t")
+            lda_dic[line[0]] = line[1]
+        fp.close()
+        return lda_dic
+
+    def get_cuserEqualquser_value(self, key):
+        return self.model[key]
+
+
 def getFeature(meta_file, file_type):
 
     in_file = open(meta_file, 'r')

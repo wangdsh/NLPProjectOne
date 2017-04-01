@@ -30,6 +30,8 @@ class LSI_Util:
         lda_list = []
         fp = open(lda_result_file_path, "r")
         for line in fp:
+            if line.strip() == "":
+                continue
             lda_list.append(line.strip())
         fp.close()
         return lda_list

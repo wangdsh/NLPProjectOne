@@ -39,8 +39,6 @@ class LDA_Util:
         return self.cosine(self.model[line_num_one], self.model[line_num_two])
 
 
-
-
 def get_doc_set(input_fp):
     file_list = []
     for line in input_fp:

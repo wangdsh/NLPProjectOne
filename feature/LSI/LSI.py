@@ -10,8 +10,39 @@ from stop_words import get_stop_words
 from nltk.stem.porter import PorterStemmer
 from gensim import corpora
 
+from scipy import linalg, mat, dot
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+
+class LSI_Util:
+    def __init__(self, step):  # step 0 train  1 devel  2 test
+        if step == 0:
+            file_path = "./train_lsi.txt"
+        elif step == 1:
+            file_path = "./devel_lsi.txt"
+        elif step == 2:
+            file_path = "./test_lsi.txt"
+        self.model = self.load_file(file_path)
+
+    def load_file(self, lda_result_file_path):
+        lda_list = []
+        fp = open(lda_result_file_path, "r")
+        for line in fp:
+            lda_list.append(line.strip())
+        fp.close()
+        return lda_list
+
+    def cosine(self, list1, list2):
+        a = mat(list1)
+        b = mat(list2)
+        c = dot(a, b.T) / linalg.norm(a) / linalg.norm(b)
+        return c[0, 0]
+
+    def getLSISim(self, line_num_one, line_num_two):  # num start from 0
+        return self.cosine(self.model[line_num_one], self.model[line_num_two])
+
 
 def getCorpus(infile):
 

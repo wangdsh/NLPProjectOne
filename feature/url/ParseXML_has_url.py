@@ -17,6 +17,31 @@ count = 0
 c_subject_body = ""
 
 
+class get_url_utli:
+    def __init__(self, step):  # step 0 train  1 devel  2 test
+        if step == 0:
+            file_path = "./result_train_has_url.txt"
+        elif step == 1:
+            file_path = "./result_devel_has_url.txt"
+        elif step == 2:
+            file_path = "./result_test_has_url.txt"
+        self.model = self.load_file(file_path)
+
+    def load_file(self, lda_result_file_path):
+        lda_dic = {}
+        fp = open(lda_result_file_path, "r")
+        for line in fp:
+            if line.strip() == "":
+                continue
+            line = line.strip().split("\t")
+            lda_dic[line[0]] = line[1]
+        fp.close()
+        return lda_dic
+
+    def get_url_value(self, key):
+        return self.model[key]
+
+
 class MyXMLHandler(xml.sax.ContentHandler):
     def __init__(self):
         self.CurrentData = ""

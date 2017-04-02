@@ -33,12 +33,12 @@ class get_url_utli:
             if line.strip() == "":
                 continue
             line = line.strip().split("\t")
-            lda_dic[line[0]] = line[1]
+            lda_dic[line[0]] = float(line[1])
         fp.close()
         return lda_dic
 
-    def get_url_value(self, key):
-        return self.model[key]
+    def get_url_value(self, cid):  # comment id  eg.Q2870_C8
+        return self.model[cid]
 
 
 class MyXMLHandler(xml.sax.ContentHandler):

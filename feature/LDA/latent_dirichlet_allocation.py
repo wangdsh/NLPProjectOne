@@ -28,7 +28,8 @@ class LDA_Util:
         for line in fp:
             if line.strip() == "":
                 continue
-            lda_list.append(line.strip())
+            # lda_list.append(line.strip())
+            lda_list.append([float(each_num) for each_num in line.strip().split()])
         fp.close()
         return lda_list
 

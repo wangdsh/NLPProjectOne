@@ -5,6 +5,26 @@ import sys
 # general
 # qid category label_probability
 
+
+class category_util:
+    def __init__(self):
+        file_path = "./train_category_probability.txt"
+        self.model = self.load_file(file_path)
+
+    def load_file(self, file_path):
+        cate_dict = {}
+        fp = open(file_path)
+        for line in fp:
+            line = line.strip()
+            line_tokens = line.split("\t")
+            cate_dict[line_tokens[0]] = line[len(line_tokens[0]):].strip()
+        fp.close()
+        return cate_dict
+
+    def get_category_vec(self, cate_type):
+        return self.model[cate_type]
+
+
 def labelToInt(label):
         if(label == "Good"):
             value = 0

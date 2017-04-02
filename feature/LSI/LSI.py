@@ -15,15 +15,17 @@ from scipy import linalg, mat, dot
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+MIN_VALUE = 1e-8
 
 class LSI_Util:
-    def __init__(self, step):  # step 0 train  1 devel  2 test
-        if step == 0:
-            file_path = "LSI/train_lsi.txt"
-        elif step == 1:
-            file_path = "LSI/devel_lsi.txt"
-        elif step == 2:
-            file_path = "LSI/test_lsi.txt"
+    def __init__(self):  # step 0 train  1 devel  2 test
+        # if step == 0:
+        #     file_path = "LSI/train_lsi.txt"
+        # elif step == 1:
+        #     file_path = "LSI/devel_lsi.txt"
+        # elif step == 2:
+        #     file_path = "LSI/test_lsi.txt"
+        file_path = "LSI/total_lsi.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, lda_result_file_path):
@@ -31,8 +33,10 @@ class LSI_Util:
         fp = open(lda_result_file_path, "r")
         for line in fp:
             if line.strip() == "":
-                continue
-            lda_list.append(line.strip())
+                lda_list.append([MIN_VALUE for i in range(10)])
+            else:
+                vec = line.split('\t')
+                lda_list.append(vec)
         fp.close()
         return lda_list
 
@@ -43,6 +47,7 @@ class LSI_Util:
         return c[0, 0]
 
     def getLSISim(self, line_num_one, line_num_two):  # num start from 0
+
         return self.cosine(self.model[line_num_one], self.model[line_num_two])
 
 
@@ -95,7 +100,7 @@ def train_lsi(infile, outfile):
     for text in texts:
         text_bow = dictionary.doc2bow(text)
         text_lsi = lsi[text_bow]
-        print text_lsi
+        # print text_lsi
         topic_pro = [x[1] for x in text_lsi]
         fp_out.write('\t'.join([str(pro) for pro in topic_pro]) + '\n')
 
@@ -117,6 +122,9 @@ if __name__ == '__main__':
     infile, outfile = sys.argv[1:3]
     train_lsi(infile, outfile)
 
+
+# total
+# python LSI.py ../../Pretreatment/Total/pretreatment_one_result_all_total_3.txt ./total_lsi.txt
 
 # train
 # python LSI.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./train_lsi.txt

@@ -12,20 +12,27 @@ import url.ParseXML_has_url as URL
 import numpy as np
 import pickle as pickle
 
+TRAIN_LINES = 19141
+DEVEL_LINES = 1945
+TEST_LINES = 2305
+
+MIN_VALUE = 1e-8
+
+
 def main(step):     # 0 train, 1 devel, 2 test
 
     # feature
     file = ""
     if step == 0:
-        file = "../Pretreatment/Total/pretreatment_one_result_train_total_no_blank.txt"
+        file = "../Pretreatment/Total/pretreatment_one_result_train_total_3_id.txt"
         pickle_general = "./train_general_data.pkl"
         pickle_yes_no = "./train_yes_no_data.pkl"
     elif step == 1:
-        file = "../Pretreatment/Total/pretreatment_one_result_devel_total_no_blank.txt"
+        file = "../Pretreatment/Total/pretreatment_one_result_devel_total_3_id.txt"
         pickle_general = "./devel_general_data.pkl"
         pickle_yes_no = "./devel_yes_no_data.pkl"
     elif step == 2:
-        file = "../Pretreatment/Total/pretreatment_one_result_test_total_no_blank.txt"
+        file = "../Pretreatment/Total/pretreatment_one_result_test_total_3_id.txt"
         pickle_general = "./test_general_data.pkl"
         pickle_yes_no = "./test_yes_no_data.pkl"
     else:
@@ -49,10 +56,10 @@ def main(step):     # 0 train, 1 devel, 2 test
     meta = MetaData.MetaData(step)
 
     # LDA
-    lda = LDA.LDA_Util(step)
+    lda = LDA.LDA_Util()
 
     # LSI
-    lsi = LSI.LSI_Util(step)
+    lsi = LSI.LSI_Util()
 
     # category_probability
     cp = cate_pro.category_util()
@@ -64,7 +71,15 @@ def main(step):     # 0 train, 1 devel, 2 test
     url = URL.get_url_utli(step)
 
     # word2vec
-    w2v = word2vecUtil.Word2VecUtil(step)
+    w2v = word2vecUtil.Word2VecUtil()
+
+    # add_step
+    add_step = 0        # train
+    if step == 1:
+        add_step = TRAIN_LINES      # dev
+    elif step == 2:
+        add_step = TRAIN_LINES + DEVEL_LINES      # test
+
 
     for line in fp:
 
@@ -86,14 +101,17 @@ def main(step):     # 0 train, 1 devel, 2 test
             feature.append(rowid)
 
             # LDA
-            feature.append(lda.getLDASim(qindex, row_num))
+            feature.append(lda.getLDASim(qindex + add_step, row_num + add_step))
 
             # LSI
-            feature.append(lsi.getLSISim(qindex, row_num))
+            feature.append(lsi.getLSISim(qindex + add_step, row_num + add_step))
 
             # BOW
-            bow = BOW.BOW(qcontent, content)
-            feature.append(bow.getVectorSim())
+            if qcontent and content:
+                bow = BOW.BOW(qcontent, content)
+                feature.append(bow.getVectorSim())
+            else:
+                feature.append(MIN_VALUE)
 
             # category_probability
             feature.extend(cp.get_category_vec(meta.getQuestionCat(qid)))

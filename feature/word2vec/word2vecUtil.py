@@ -15,14 +15,14 @@ vector_len = 400
 
 class Word2VecUtil:
 
-    def __init__(self, step):   # 0 train, 1 devel, 2 test
-        file = ""
-        if step == 0:
-            file = "word2vec/train_w2v.model"
-        elif step == 1:
-            file = "word2vec/devel_w2v.model"
-        elif step == 2:
-            file = "word2vec/test_w2v.model"
+    def __init__(self):   # 0 train, 1 devel, 2 test
+        file = "word2vec/total_w2v.model"
+        # if step == 0:
+        #     file = "word2vec/train_w2v.model"
+        # elif step == 1:
+        #     file = "word2vec/devel_w2v.model"
+        # elif step == 2:
+        #     file = "word2vec/test_w2v.model"
         self.model = Word2Vec.load(file)
 
     def cosine(self, list1, list2):
@@ -61,6 +61,8 @@ if __name__ == '__main__':
     model.save(out)
     # model = Word2Vec.load(out)
 
+# total
+# python word2vecUtil.py ../../Pretreatment/Total/pretreatment_one_result_all_total_3.txt ./total_w2v.model
 
 # train
 # python word2vecUtil.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./train_w2v.model

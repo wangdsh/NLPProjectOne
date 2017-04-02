@@ -6,11 +6,11 @@ import sys
 class cuserEqualquser_Util:
     def __init__(self, step):  # step 0 train  1 devel  2 test
         if step == 0:
-            file_path = "./train_cuserEqualquser.txt"
+            file_path = "cuserEqualquser/train_cuserEqualquser.txt"
         elif step == 1:
-            file_path = "./dev_cuserEqualquser.txt"
+            file_path = "cuserEqualquser/dev_cuserEqualquser.txt"
         elif step == 2:
-            file_path = "./test_cuserEqualquser.txt"
+            file_path = "cuserEqualquser/test_cuserEqualquser.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, lda_result_file_path):

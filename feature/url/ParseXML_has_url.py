@@ -19,11 +19,11 @@ c_subject_body = ""
 class get_url_utli:
     def __init__(self, step):  # step 0 train  1 devel  2 test
         if step == 0:
-            file_path = "./result_train_has_url.txt"
+            file_path = "url/result_train_has_url.txt"
         elif step == 1:
-            file_path = "./result_devel_has_url.txt"
+            file_path = "url/result_devel_has_url.txt"
         elif step == 2:
-            file_path = "./result_test_has_url.txt"
+            file_path = "url/result_test_has_url.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, lda_result_file_path):

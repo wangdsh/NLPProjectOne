@@ -40,11 +40,11 @@ class MetaData:
     def __init__(self, step):    # 0 train, 1 devel, 2 test
         file_path = ""
         if step == 0:
-            file_path = "./train/metadata_total.txt"
+            file_path = "metainfo/train/metadata_total.txt"
         elif step == 1:
-            file_path = "./dev/metadata_total.txt"
+            file_path = "metainfo/dev/metadata_total.txt"
         elif step == 2:
-            file_path = "./test/meta_total.txt"
+            file_path = "metainfo/test/meta_total.txt"
         else:
             print "error step"
             exit()

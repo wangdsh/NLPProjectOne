@@ -19,11 +19,11 @@ sys.setdefaultencoding('utf-8')
 class LSI_Util:
     def __init__(self, step):  # step 0 train  1 devel  2 test
         if step == 0:
-            file_path = "./train_lsi.txt"
+            file_path = "LSI/train_lsi.txt"
         elif step == 1:
-            file_path = "./devel_lsi.txt"
+            file_path = "LSI/devel_lsi.txt"
         elif step == 2:
-            file_path = "./test_lsi.txt"
+            file_path = "LSI/test_lsi.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, lda_result_file_path):

@@ -8,7 +8,7 @@ import sys
 
 class category_util:
     def __init__(self):
-        file_path = "./train_category_probability.txt"
+        file_path = "category_probability/train_category_probability.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, file_path):

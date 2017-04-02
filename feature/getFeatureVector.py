@@ -7,7 +7,7 @@ import bag_of_words.bag_of_words as BOW
 import cuserEqualquser.cuserEqualquser as cEq
 import metainfo.ParseXML_metadata as MetaData
 import category_probability.category_probability as cate_pro
-import word2vec.word2vec as word2vec
+import word2vec.word2vecUtil as word2vecUtil
 import url.ParseXML_has_url as URL
 import numpy as np
 import pickle as pickle
@@ -32,8 +32,11 @@ def main(step):     # 0 train, 1 devel, 2 test
         print 'error step!'
         return
 
-    fp = open(file, "r")
-    row_num = 0
+    fp = open(file, "r")    # read file
+    fp_pickle_general = open(pickle_general, "wb")
+    fp_pickle_yes_no = open(pickle_yes_no, "wb")
+
+    row_num = 0         # line number
 
     qindex = 0          # index
     qid = 0
@@ -61,13 +64,17 @@ def main(step):     # 0 train, 1 devel, 2 test
     url = URL.get_url_utli(step)
 
     # word2vec
-    w2v = word2vec.Word2Vec(step)
+    w2v = word2vecUtil.Word2VecUtil(step)
 
     for line in fp:
+
         lines = line.split('\t')
         rowid = lines[0].strip()
-        content = lines[0].strip()
-        if len(rowid.split()) == 1:     # question
+        content = lines[1].strip()
+
+        print rowid, content
+
+        if not "_" in rowid:     # question
             qindex = row_num
             qid = rowid
             qcontent = content          # comment
@@ -103,6 +110,8 @@ def main(step):     # 0 train, 1 devel, 2 test
             # label
             feature.append(meta.getCommentType(rowid, qid))
 
+            print qid, meta.getQuestionType(qid)
+
             if meta.getQuestionType(qid) == "GENERAL":
                 features_gen.append(feature)
             else:
@@ -110,29 +119,41 @@ def main(step):     # 0 train, 1 devel, 2 test
 
         row_num += 1
 
+    print len(features_gen), len(feature_yes_no)
     # pickle features  labels
-    pickle.dump(features_gen, pickle_general)
-    pickle.dump(feature_yes_no, pickle_yes_no)
+    pickle.dump(features_gen, fp_pickle_general)
+    pickle.dump(feature_yes_no, fp_pickle_yes_no)
+
+    # close
+    fp.close()
+    fp_pickle_general.close()
+    fp_pickle_yes_no.close()
+
+def showFeatures(file_path):
+    fp = open(file_path, "r")
+    features = pickle.load(fp)
+    print "Show Features!"
+    print features
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print "sys.argv[1]: step! (0 train, 1 devel, 2 test)"
         exit()
 
     step = int(sys.argv[1])
-    pickle_path = sys.argv[2]
     main(step)
+    # showFeatures("./train_general_data.pkl")
 
 # bow w2v LDA TF-IDF URL Category_pro cuserComQuser
 
 # train
-# python getFeatureVector 0
+# python getFeatureVector.py 0
 
 # devel
-# python getFeatureVector 1
+# python getFeatureVector.py 1
 
 # test
-# python getFeatureVector 2
+# python getFeatureVector.py 2
 
     
 

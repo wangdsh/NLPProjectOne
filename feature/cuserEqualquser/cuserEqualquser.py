@@ -20,12 +20,12 @@ class cuserEqualquser_Util:
             if line.strip() == "":
                 continue
             line = line.strip().split("\t")
-            lda_dic[line[0]] = line[1]
+            lda_dic[line[0]] = float(line[1])
         fp.close()
         return lda_dic
 
-    def get_cuserEqualquser_value(self, key):
-        return self.model[key]
+    def get_cuserEqualquser_value(self, cid):
+        return self.model[cid]
 
 
 def getFeature(meta_file, file_type):

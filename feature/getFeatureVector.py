@@ -8,6 +8,7 @@ import cuserEqualquser.cuserEqualquser as cEq
 import category_probability.category_probability as CP
 import word2vec.word2vec as word2vec
 import numpy as np
+import pickle as pickle
 
 def main(step):     # 0 train, 1 devel, 2 test
 
@@ -15,10 +16,13 @@ def main(step):     # 0 train, 1 devel, 2 test
     file = ""
     if step == 0:
         file = "../Pretreatment/Total/pretreatment_one_result_train_total_no_blank.txt"
+        pickle_path = "./train_data.pkl"
     elif step == 1:
         file = "../Pretreatment/Total/pretreatment_one_result_devel_total_no_blank.txt"
+        pickle_path = "./devel_data.pkl"
     elif step == 2:
         file = "../Pretreatment/Total/pretreatment_one_result_test_total_no_blank.txt"
+        pickle_path = "./test_data.pkl"
     else:
         return
 
@@ -28,7 +32,10 @@ def main(step):     # 0 train, 1 devel, 2 test
     qindex = 0          # index
     qcontent = ""       # content
 
-    features = list()   # [[], [], ...]
+    data = {}           # general, yes_no
+
+    features_gen = list()   # [[], [], ...]
+    feature_yes_no = list()
 
     # LDA
     lda = LDA.LDA_Util(step)
@@ -77,18 +84,21 @@ def main(step):     # 0 train, 1 devel, 2 test
             # word2vec
             feature.append(w2v.getSentenseSim(qcontent, content))
 
-            features.append(feature)
+            features_.append(feature)
 
         row_num += 1
 
+
     # pickle features  labels
+    pickle.dump()
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print "sys.argv[1]: step! (0 train, 1 devel, 2 test)"
         exit()
 
     step = int(sys.argv[1])
+    pickle_path = sys.argv[2]
     main(step)
 
 # bow w2v LDA TF-IDF URL Category_pro cuserComQuser

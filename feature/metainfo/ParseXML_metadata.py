@@ -3,6 +3,71 @@
 import xml.sax
 import sys
 
+# general and yes_no label to int
+def labelToInt(label, type): # 0 general, 1 yes_no
+    value = 0
+    if type == 0:
+        if(label == "Good"):
+            value = 0
+        elif(label == "Bad"):
+            value = 1
+        elif(label == "Potential"):
+            value = 2
+        elif(label == "Dialogue"):
+            value = 3
+        elif(label == "Not English"):
+            value = 4
+        elif(label == "Other"):
+            value = 5
+        else:          # error
+            value = 6
+        return value
+    elif type == 1:
+        if(label == "Good_Yes"):
+            value = 0
+        elif(label == "Good_No"):
+            value = 1
+        else:           # other
+            value = 2
+        return value
+    else:
+        print "error"
+        return -1
+
+
+
+class MetaData:
+    def __init__(self, step):    # 0 train, 1 devel, 2 test
+        file_path = ""
+        if step == 0:
+            file_path = "./train/metadata_total.txt"
+        elif step == 1:
+            file_path = "./dev/metadata_total.txt"
+        elif step == 2:
+            file_path = "./test/meta_total.txt"
+        else:
+            print "error step"
+            exit()
+
+        self.data = {}
+        fp = open(file_path, "r")
+        for line in fp:
+            row = [t.strip() for t in line.split('\t')]
+            self.data[row[0]] = row[1:]
+
+    def getQuestionType(self, qid):
+        return self.data[qid][2]
+
+    def getCommentType(self, cid, qid):
+        qType = self.getQuestionType(qid)
+        if qType == "GENERAL":
+            return labelToInt(self.data[cid][1])
+        elif qType == "YES_NO":
+            return labelToInt(self.data[cid][1]+"_"+self.data[cid][2])
+
+    def getQuestionCat(self, qid):
+        return self.data[qid][0]
+
 
 class MyXMLHandler(xml.sax.ContentHandler):
     def __init__(self, outDir, file_type):

@@ -17,12 +17,13 @@ class category_util:
         for line in fp:
             line = line.strip()
             line_tokens = line.split("\t")
-            cate_dict[line_tokens[0]] = line[len(line_tokens[0]):].strip()
+            cate_list = [float(each) for each in line_tokens[1:]]
+            cate_dict[line_tokens[0]] = cate_list
         fp.close()
         return cate_dict
 
-    def get_category_vec(self, cate_type):
-        return self.model[cate_type]
+    def get_category_vec(self, category):
+        return self.model[category]
 
 
 def labelToInt(label):

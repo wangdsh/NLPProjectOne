@@ -6,10 +6,12 @@ if __name__ == "__main__":
 
     target_fp = open("Total/pretreatment_one_result_all_total_3.txt", "wb")
 
-    for line in devel_fp:
-        target_fp.write(line)
     for line in train_fp:
         target_fp.write(line)
+
+    for line in devel_fp:
+        target_fp.write(line)
+
     for line in test_fp:
         target_fp.write(line)
 

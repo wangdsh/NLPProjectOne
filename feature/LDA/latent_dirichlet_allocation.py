@@ -129,3 +129,5 @@ if __name__ == "__main__":
 # python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_train_total_2.txt ./result_lda_train.txt
 
 # python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_test_total_2.txt ./result_lda_test.txt
+
+# python latent_dirichlet_allocation.py ../../Pretreatment/Total/pretreatment_one_result_all_total_3.txt ./result_lda_all.txt

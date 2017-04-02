@@ -61,9 +61,9 @@ class MetaData:
     def getCommentType(self, cid, qid):
         qType = self.getQuestionType(qid)
         if qType == "GENERAL":
-            return labelToInt(self.data[cid][1])
+            return labelToInt(self.data[cid][1], 0)
         elif qType == "YES_NO":
-            return labelToInt(self.data[cid][1]+"_"+self.data[cid][2])
+            return labelToInt(self.data[cid][1]+"_"+self.data[cid][2], 1)
 
     def getQuestionCat(self, qid):
         return self.data[qid][0]

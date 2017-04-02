@@ -16,6 +16,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 MIN_VALUE = 1e-8
+MAX_DIS = 10
 
 class LSI_Util:
     def __init__(self):  # step 0 train  1 devel  2 test
@@ -33,10 +34,10 @@ class LSI_Util:
         fp = open(lda_result_file_path, "r")
         for line in fp:
             if line.strip() == "":
-                lda_list.append([MIN_VALUE for i in range(10)])
+                lda_list.append([float(MIN_VALUE) for i in range(10)])
             else:
                 vec = line.split('\t')
-                lda_list.append(vec)
+                lda_list.append([float(num) for num in vec])
         fp.close()
         return lda_list
 
@@ -47,8 +48,16 @@ class LSI_Util:
         return c[0, 0]
 
     def getLSISim(self, line_num_one, line_num_two):  # num start from 0
+        # print line_num_one, line_num_two
 
-        return self.cosine(self.model[line_num_one], self.model[line_num_two])
+        # print self.model[line_num_one]
+        # print self.model[line_num_two]
+
+        if len(self.model[line_num_one]) != len(self.model[line_num_two]):
+            print line_num_one, line_num_two
+            return MAX_DIS
+        else:
+            return self.cosine(self.model[line_num_one], self.model[line_num_two])
 
 
 def getCorpus(infile):

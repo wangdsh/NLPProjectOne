@@ -87,7 +87,7 @@ def main(step):     # 0 train, 1 devel, 2 test
         rowid = lines[0].strip()
         content = lines[1].strip()
 
-        print rowid, content
+        # print rowid, content
 
         if not "_" in rowid:     # question
             qindex = row_num
@@ -128,7 +128,7 @@ def main(step):     # 0 train, 1 devel, 2 test
             # label
             feature.append(meta.getCommentType(rowid, qid))
 
-            print qid, meta.getQuestionType(qid)
+            # print qid, meta.getQuestionType(qid)
 
             if meta.getQuestionType(qid) == "GENERAL":
                 features_gen.append(feature)
@@ -151,7 +151,7 @@ def showFeatures(file_path):
     fp = open(file_path, "r")
     features = pickle.load(fp)
     print "Show Features!"
-    print features
+    print features[0:5]
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

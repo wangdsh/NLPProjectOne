@@ -36,9 +36,11 @@ class Word2VecUtil:
         v1 = np.zeros(vector_len)
         v2 = np.zeros(vector_len)
         for word in s1.split():
-            v1 += self.model.wv[word]
+            if word in self.model.wv:
+                v1 += self.model.wv[word]
         for word in s2.split():
-            v2 += self.model.wv[word]
+            if word in self.model.wv:
+                v2 += self.model.wv[word]
         return self.cosine(v1, v2)
 
 if __name__ == '__main__':
@@ -55,7 +57,7 @@ if __name__ == '__main__':
         sys.exit(1)
     inp, out = sys.argv[1:3]
 
-    model = Word2Vec(LineSentence(inp), size=400, window=5, min_count=5,
+    model = Word2Vec(LineSentence(inp), size=400, window=5, min_count=5, sample=1e-5,
             workers=multiprocessing.cpu_count())
 
     model.save(out)

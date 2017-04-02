@@ -16,7 +16,6 @@ has_url = 0
 count = 0
 c_subject_body = ""
 
-
 class get_url_utli:
     def __init__(self, step):  # step 0 train  1 devel  2 test
         if step == 0:

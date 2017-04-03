@@ -163,4 +163,4 @@ if __name__ == "__main__":
     cfInstance = Classification(sys.argv[1], sys.argv[2], sys.argv[3])
     cfInstance.getPreResult(sys.argv[4])
     
-# python classification.py svm ./train_general_data.pkl ./devel_general_data.pkl  ./devel_general_result.txt
+# python classification.py svm ./train_total.pkl ./devel_total.pkl  ./devel_total_result.txt

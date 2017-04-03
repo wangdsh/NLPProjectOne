@@ -27,21 +27,25 @@ def main(step):     # 0 train, 1 devel, 2 test
         file = "../Pretreatment/Total/pretreatment_one_result_train_total_3_id.txt"
         pickle_general = "./train_general_data.pkl"
         pickle_yes_no = "./train_yes_no_data.pkl"
+        pickle_total = "./train_total.pkl"
     elif step == 1:
         file = "../Pretreatment/Total/pretreatment_one_result_devel_total_3_id.txt"
         pickle_general = "./devel_general_data.pkl"
         pickle_yes_no = "./devel_yes_no_data.pkl"
+        pickle_total = "./devel_total.pkl"
     elif step == 2:
         file = "../Pretreatment/Total/pretreatment_one_result_test_total_3_id.txt"
         pickle_general = "./test_general_data.pkl"
         pickle_yes_no = "./test_yes_no_data.pkl"
+        pickle_total = "./test_total.pkl"
     else:
         print 'error step!'
         return
 
     fp = open(file, "r")    # read file
-    fp_pickle_general = open(pickle_general, "wb")
-    fp_pickle_yes_no = open(pickle_yes_no, "wb")
+    # fp_pickle_general = open(pickle_general, "wb")
+    # fp_pickle_yes_no = open(pickle_yes_no, "wb")
+    fp_pickle_total = open(pickle_total, "wb")
 
     row_num = 0         # line number
 
@@ -49,8 +53,9 @@ def main(step):     # 0 train, 1 devel, 2 test
     qid = 0
     qcontent = ""       # content
 
-    features_gen = list()   # [[], [], ...]
-    feature_yes_no = list()
+    # features_gen = list()   # [[], [], ...]
+    # feature_yes_no = list()
+    features_total = list()
 
     # meta
     meta = MetaData.MetaData(step)
@@ -130,22 +135,25 @@ def main(step):     # 0 train, 1 devel, 2 test
 
             # print qid, meta.getQuestionType(qid)
 
-            if meta.getQuestionType(qid) == "GENERAL":
-                features_gen.append(feature)
-            else:
-                feature_yes_no.append(feature)
+            # if meta.getQuestionType(qid) == "GENERAL":
+            #     features_gen.append(feature)
+            # else:
+            #     feature_yes_no.append(feature)
+            features_total.append(feature)
 
         row_num += 1
 
-    print len(features_gen), len(feature_yes_no)
+    # print len(features_gen), len(feature_yes_no)
     # pickle features  labels
-    pickle.dump(features_gen, fp_pickle_general)
-    pickle.dump(feature_yes_no, fp_pickle_yes_no)
+    # pickle.dump(features_gen, fp_pickle_general)
+    # pickle.dump(feature_yes_no, fp_pickle_yes_no)
+    pickle.dump(features_total, fp_pickle_total)
 
     # close
     fp.close()
-    fp_pickle_general.close()
-    fp_pickle_yes_no.close()
+    # fp_pickle_general.close()
+    # fp_pickle_yes_no.close()
+    fp_pickle_total.close()
 
 
 def showFeatures(file_path):

@@ -147,11 +147,19 @@ def main(step):     # 0 train, 1 devel, 2 test
     fp_pickle_general.close()
     fp_pickle_yes_no.close()
 
+
 def showFeatures(file_path):
     fp = open(file_path, "r")
     features = pickle.load(fp)
     print "Show Features!"
-    print features[0:5]
+    # get_x_train = [feature[1:-1] for feature in features]
+    # get_y_train = [feature[-1] for feature in features]
+    tmp_fp = open("clf_input.txt", "wb")
+    for feature in features:
+        tmp_fp.write(str(feature[-1]) + " ")
+        tmp_fp.write(" ".join(str(each) for each in feature[1:-1]))
+        tmp_fp.write("\n")
+    tmp_fp.close()
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

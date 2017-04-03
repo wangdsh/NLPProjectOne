@@ -28,6 +28,8 @@ class Word2VecUtil:
     def cosine(self, list1, list2):
         a = mat(list1)
         b = mat(list2)
+        if linalg.norm(a) < 1e-3 or linalg.norm(b) < 1e-3:
+            return 10
         c = dot(a,b.T)/linalg.norm(a)/linalg.norm(b)
         return c[0,0]
 
@@ -61,6 +63,7 @@ if __name__ == '__main__':
             workers=multiprocessing.cpu_count())
 
     model.save(out)
+    model.wv.save_word2vec_format("total_w2v.vector")
     # model = Word2Vec.load(out)
 
 # total

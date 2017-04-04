@@ -250,6 +250,7 @@ if __name__ == '__main__':
 # taskB
 # python getFeatureVector_taskB.py 2 1
 
+
     
 
     

@@ -182,3 +182,9 @@ if __name__ == "__main__":
 # perl taskA
 # perl SemEval2015-task3-scorer-subtaskA.pl CQA-QL-devel-gold.txt devel_subtaskA_result.txt
 
+# test
+# taskA
+# python classification.py essemble ./train_total_taskA.pkl ./test_total_taskA.pkl  ./test_subtaskA_result.txt 0
+
+# perl taskA
+# perl SemEval2015-task3-scorer-subtaskA.pl CQA-QL-test-gold.txt test_subtaskA_result.txt

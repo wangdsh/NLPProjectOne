@@ -199,8 +199,8 @@ if __name__ == '__main__':
 
     step = int(sys.argv[1])
     task = int(sys.argv[2])
-    # main(step, task)
-    showFeatures("./train_total_taskA.pkl")
+    main(step, task)
+    # showFeatures("./train_total_taskA.pkl")
 
 # bow w2v LDA TF-IDF URL Category_pro cuserComQuser
 

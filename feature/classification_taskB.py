@@ -95,7 +95,7 @@ class Classification:
             # learning_rate = [0.1, 0.2, 0.3, 0.4, 0.5]
             # clf = GridSearchCV(GradientBoostingClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators, 'learning_rate': learning_rate})
-            clf = GradientBoostingClassifier(n_estimators = 100,  random_state=10)
+            clf = GradientBoostingClassifier(n_estimators = 500,  random_state=10)
             
         elif classifier == 'essemble':
             # {'n_estimators': 10, 'max_depth': 6}
@@ -184,4 +184,12 @@ if __name__ == "__main__":
 
 # perl taskB
 # perl SemEval2015-task3-scorer-subtaskB.pl CQA-QL-devel-gold-yn.txt devel_subtaskB_result.txt
+
+# test
+
+# taskB
+# python classification_taskB.py essemble ./train_total_taskB.pkl ./test_total_taskB.pkl  ./test_subtaskB_result.txt 1
+
+# perl taskB
+# perl SemEval2015-task3-scorer-subtaskB.pl CQA-QL-test-gold-yn.txt test_subtaskB_result.txt
 

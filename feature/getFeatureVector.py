@@ -10,7 +10,7 @@ import category_probability.category_probability as cate_pro
 import word2vec.word2vecUtil as word2vecUtil
 import url.ParseXML_has_url as URL
 import basic_feature.basic_feature as basic_feature
-import email.ParseXML_has_email as ParseXML_has_email
+import Has_Email.ParseXML_has_email as ParseXML_has_email
 import numpy as np
 import pickle as pickle
 
@@ -93,7 +93,7 @@ def main(step, task):     # 0 train, 1 devel, 2 test
     url = URL.get_url_utli(step)
 
     # Email
-    email = ParseXML_has_email.get_email_utli(step)
+    has_email = ParseXML_has_email.get_email_utli(step)
 
     # word2vec
     w2v = word2vecUtil.Word2VecUtil()
@@ -126,7 +126,7 @@ def main(step, task):     # 0 train, 1 devel, 2 test
             feature.append(rowid)
 
             # basic feature 11
-            feature.append(bf.get_basic_feature(rowid))
+            feature.extend(bf.get_basic_feature(rowid))
 
             # LDA
             feature.append(lda.getLDASim(qindex + add_step, row_num + add_step))
@@ -150,8 +150,8 @@ def main(step, task):     # 0 train, 1 devel, 2 test
             # url
             feature.append(url.get_url_value(rowid))
 
-            # email
-            feature.append(email.get_url_value(rowid))
+            # Has_Email
+            feature.append(has_email.get_url_value(rowid))
 
             # word2vec
             feature.append(w2v.getSentenseSim(qcontent, content))
@@ -187,7 +187,9 @@ def showFeatures(file_path):
     # for feature in features:
     #     print feature
     print len(features)
-    print features[0]
+    for i in range(10):
+        print features[i]
+    # print features[0:10]
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -197,8 +199,8 @@ if __name__ == '__main__':
 
     step = int(sys.argv[1])
     task = int(sys.argv[2])
-    main(step, task)
-    # showFeatures("./train_total_taskA.pkl")
+    # main(step, task)
+    showFeatures("./train_total_taskA.pkl")
 
 # bow w2v LDA TF-IDF URL Category_pro cuserComQuser
 

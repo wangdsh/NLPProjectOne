@@ -101,7 +101,7 @@ class Classification:
             # n_estimators = [10, 100, 1000]
             # clf = GridSearchCV(RandomForestClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators})
-            clf = RandomForestClassifier(n_estimators = 16, random_state=90)  # 90
+            clf = RandomForestClassifier(n_estimators = 100, random_state=90)  # 100,90,46%
             
         elif classifier == 'nb':
             clf = MultinomialNB()

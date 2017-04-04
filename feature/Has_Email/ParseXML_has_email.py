@@ -20,11 +20,11 @@ c_subject_body = ""
 class get_email_utli:
     def __init__(self, step):  # step 0 train  1 devel  2 test
         if step == 0:
-            file_path = "url/train_email.txt"
+            file_path = "Has_Email/train_email.txt"
         elif step == 1:
-            file_path = "url/devel_email.txt"
+            file_path = "Has_Email/devel_email.txt"
         elif step == 2:
-            file_path = "url/test_email.txt"
+            file_path = "Has_Email/test_email.txt"
         self.model = self.load_file(file_path)
 
     def load_file(self, lda_result_file_path):
@@ -135,8 +135,8 @@ if __name__ == '__main__':
     parser.parse(input_file)
     fp.close()
 
-# python ParseXML_has_email.py ../../CQA-QL-devel.xml devel_eamil.txt
+# python ParseXML_has_email.py ../../CQA-QL-devel.xml devel_email.txt
 
-# python ParseXML_has_email.py ../../CQA-QL-train.xml train_eamil.txt
+# python ParseXML_has_email.py ../../CQA-QL-train.xml train_email.txt
 
-# python ParseXML_has_email.py ../../test_task3_English.xml test_eamil.txt
+# python ParseXML_has_email.py ../../test_task3_English.xml test_email.txt

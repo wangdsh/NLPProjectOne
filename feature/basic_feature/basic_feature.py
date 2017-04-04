@@ -76,7 +76,6 @@ if __name__ == "__main__":
         feature_dict[feature_list[0]] = feature_list[1:]
         feature_list = []
 
-    print type(feature_dict)
     pickle.dump(feature_dict, output)
     fp.close()
     output.close()

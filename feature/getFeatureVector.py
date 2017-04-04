@@ -9,6 +9,8 @@ import metainfo.ParseXML_metadata as MetaData
 import category_probability.category_probability as cate_pro
 import word2vec.word2vecUtil as word2vecUtil
 import url.ParseXML_has_url as URL
+import basic_feature.basic_feature as basic_feature
+import email.ParseXML_has_email as ParseXML_has_email
 import numpy as np
 import pickle as pickle
 
@@ -72,6 +74,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
     # meta
     meta = MetaData.MetaData(step)
 
+    # Basic feature
+    bf = basic_feature.basic_feature(step)
+
     # LDA
     lda = LDA.LDA_Util()
 
@@ -86,6 +91,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
 
     # URL
     url = URL.get_url_utli(step)
+
+    # Email
+    email = ParseXML_has_email.get_email_utli(step)
 
     # word2vec
     w2v = word2vecUtil.Word2VecUtil()
@@ -117,6 +125,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
             # cid
             feature.append(rowid)
 
+            # basic feature 11
+            feature.append(bf.get_basic_feature(rowid))
+
             # LDA
             feature.append(lda.getLDASim(qindex + add_step, row_num + add_step))
 
@@ -138,6 +149,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
 
             # url
             feature.append(url.get_url_value(rowid))
+
+            # email
+            feature.append(email.get_url_value(rowid))
 
             # word2vec
             feature.append(w2v.getSentenseSim(qcontent, content))

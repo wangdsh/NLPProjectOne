@@ -87,13 +87,13 @@ class Classification:
             # clf = GridSearchCV(svm.SVC(), param_grid)
             clf = svm.SVC(kernel='rbf', gamma = 0.001, C = 100)
             
-        elif classifier == 'gbdt':
+        elif classifier == 'gdbt':
             # max_depth = np.arange(1, 10)
             # n_estimators = [10, 100, 1000]
             # learning_rate = [0.1, 0.2, 0.3, 0.4, 0.5]
             # clf = GridSearchCV(GradientBoostingClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators, 'learning_rate': learning_rate})
-            clf = GradientBoostingClassifier(n_estimators = 1000, max_depth = 10)
+            clf = GradientBoostingClassifier(n_estimators = 16, max_depth = 90)
             
         elif classifier == 'essemble':
             # {'n_estimators': 10, 'max_depth': 6}

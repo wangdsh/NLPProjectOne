@@ -87,15 +87,15 @@ class Classification:
             # param_grid = [{'C': [1, 10, 100, 1000], 'kernel': ['linear']},
             # {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']}]
             # clf = GridSearchCV(svm.SVC(), param_grid)
-            clf = svm.SVC(kernel='rbf', gamma = 0.001, C = 100)
+            clf = svm.SVC(kernel='rbf', C = 1)
             
-        elif classifier == 'gdbt':
+        elif classifier == 'gbdt':
             # max_depth = np.arange(1, 10)
             # n_estimators = [10, 100, 1000]
             # learning_rate = [0.1, 0.2, 0.3, 0.4, 0.5]
             # clf = GridSearchCV(GradientBoostingClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators, 'learning_rate': learning_rate})
-            clf = GradientBoostingClassifier(n_estimators = 500,  random_state=10)
+            clf = GradientBoostingClassifier(n_estimators = 1000, learning_rate=0.2, max_depth=2, random_state=10)
             
         elif classifier == 'essemble':
             # {'n_estimators': 10, 'max_depth': 6}
@@ -103,7 +103,7 @@ class Classification:
             # n_estimators = [10, 100, 1000]
             # clf = GridSearchCV(RandomForestClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators})
-            clf = RandomForestClassifier(n_estimators = 150, random_state=90)  # 9 15325, 6 90
+            clf = RandomForestClassifier(n_estimators = 150, random_state=90, max_depth=15)  # 9 15325, 6 90
             
         elif classifier == 'nb':
             clf = MultinomialNB()

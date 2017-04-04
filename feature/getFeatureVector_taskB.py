@@ -11,13 +11,15 @@ import word2vec.word2vecUtil as word2vecUtil
 import url.ParseXML_has_url as URL
 import numpy as np
 import pickle as pickle
+import basic_feature.basic_feature as basic_feature
+import Has_Email.ParseXML_has_email as ParseXML_has_email
 
 TRAIN_LINES = 19141
 DEVEL_LINES = 1945
 TEST_LINES = 2305
 
 MIN_VALUE = 1e-5
-FEATURE_NUM = 12
+FEATURE_NUM = 24
 
 def main(step, task):     # 0 train, 1 devel, 2 test
 
@@ -68,6 +70,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
     # meta
     meta = MetaData.MetaData(step)
 
+    # Basic feature
+    bf = basic_feature.basic_feature(step)
+
     # LDA
     lda = LDA.LDA_Util()
 
@@ -82,6 +87,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
 
     # URL
     url = URL.get_url_utli(step)
+
+    # Email
+    has_email = ParseXML_has_email.get_email_utli(step)
 
     # word2vec
     w2v = word2vecUtil.Word2VecUtil()
@@ -129,6 +137,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
                  # feature = []
                 feature_data = []
 
+                # basic feature 11
+                feature_data.extend(bf.get_basic_feature(rowid))
+
                 # LDA
                 feature_data.append(lda.getLDASim(qindex + add_step, row_num + add_step))
 
@@ -151,6 +162,9 @@ def main(step, task):     # 0 train, 1 devel, 2 test
                 # url
                 feature_data.append(url.get_url_value(rowid))
 
+                # Has_Email
+                feature_data.append(has_email.get_url_value(rowid))
+
                 # word2vec
                 feature_data.append(w2v.getSentenseSim(qcontent, content))
 
@@ -169,7 +183,7 @@ def main(step, task):     # 0 train, 1 devel, 2 test
             # qid
             feature.append(qid)
 
-            qfeature = qfeature / num_com
+            # qfeature = qfeature / num_com
 
             # features data
             feature.extend(qfeature.tolist())
@@ -202,9 +216,9 @@ def showFeatures(file_path):
     # get_x_train = [feature[1:-1] for feature in features]
     # get_y_train = [feature[-1] for feature in features]
     # tmp_fp = open("clf_input.txt", "wb")
-    print features[0]
-    # for feature in features:
-    #     print feature
+    # print features[0]
+    for i in range(10):
+        print features[i]
     print len(features)
 
 if __name__ == '__main__':

@@ -84,16 +84,15 @@ class MyXMLHandler(xml.sax.ContentHandler):
     def __init__(self, outDir, file_type):
         self.qtype = ''
         self.ftype = file_type
-        self.fp_general = outDir + 'metadata_general.txt'
-        self.fp_yes_no = outDir + 'metadata_yes_no.txt'
-        self.fp_total = outDir + 'metadata_total.txt'
+        fp_general = outDir + 'metadata_general.txt'
+        fp_yes_no = outDir + 'metadata_yes_no.txt'
+        fp_total = outDir + 'metadata_total.txt'
+        self.fp_total = open(fp_total, 'wb')
+        self.fp_general = open(fp_general, 'wb')
+        self.fp_yes_no = open(fp_yes_no, 'wb')
 
     # 元素开始事件处理
     def startElement(self, tag, attributes):
-
-        fp_total = open(self.fp_total, 'a+')
-        fp_general = open(self.fp_general, 'a+')
-        fp_yes_no = open(self.fp_yes_no, 'a+')
 
         if tag == 'Question':
 
@@ -106,13 +105,13 @@ class MyXMLHandler(xml.sax.ContentHandler):
                          attributes['QUSERID'] +"\t" + attributes['QTYPE'] + "\t" + \
                          attributes['QGOLD_YN'] + "\n"
 
-            fp_total.write(qline)
+            self.fp_total.write(qline)
             if attributes['QTYPE'] == 'GENERAL':
                 self.qtype = 'GENERAL'
-                fp_general.write(qline)
+                self.fp_general.write(qline)
             else:
                 self.qtype = 'YES_NO'
-                fp_yes_no.write(qline)
+                self.fp_yes_no.write(qline)
 
         elif tag == 'Comment':
 
@@ -124,15 +123,15 @@ class MyXMLHandler(xml.sax.ContentHandler):
                          attributes['CGOLD'] +"\t" + attributes['CGOLD_YN'] + "\n"
 
 
-            fp_total.write(cline)
+            self.fp_total.write(cline)
             if self.qtype == 'GENERAL':
-                fp_general.write(cline)
+                self.fp_general.write(cline)
             else:
-                fp_yes_no.write(cline)
+                self.fp_yes_no.write(cline)
 
-        fp_total.close()
-        fp_yes_no.close()
-        fp_general.close()
+        self.fp_total.close()
+        self.fp_yes_no.close()
+        self.fp_general.close()
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

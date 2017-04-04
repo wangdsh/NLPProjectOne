@@ -53,7 +53,7 @@ def getProDict():
 def getFeature(meta_file, file_type):
 
     in_file = open(meta_file, 'r')
-    out_file = open(file_type + '_category_probability.txt', 'a+')
+    out_file = open(file_type + '_category_probability.txt', 'wb')
 
     category = {}  # {category:{0:1, 1:2, 2:3, 3:4, 4:5, 5:6}}
     cname = ''

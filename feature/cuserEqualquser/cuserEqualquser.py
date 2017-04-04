@@ -31,7 +31,7 @@ class cuserEqualquser_Util:
 def getFeature(meta_file, file_type):
 
     in_file = open(meta_file, 'r')
-    out_file = open(file_type + '_cuserEqualquser.txt', 'a+')
+    out_file = open(file_type + '_cuserEqualquser.txt', 'wb')
 
     print meta_file, file_type
     quser = 0

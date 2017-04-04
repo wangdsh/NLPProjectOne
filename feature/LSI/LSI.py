@@ -105,7 +105,7 @@ def train_lsi(infile, outfile):
     corpus = [dictionary.doc2bow(text) for text in texts]
     lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=10)
 
-    fp_out = open(outfile, "a+")
+    fp_out = open(outfile, "wb")
     for text in texts:
         text_bow = dictionary.doc2bow(text)
         text_lsi = lsi[text_bow]

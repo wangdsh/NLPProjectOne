@@ -23,12 +23,15 @@ def labelToInt(label, type): # 0 general, 1 yes_no
             value = 6
         return value
     elif type == 1:
-        if(label == "Good_Yes"):
+        if(label == "Yes"):
             value = 0
-        elif(label == "Good_No"):
+        elif(label == "No"):
             value = 1
-        else:           # other
+        elif(label == "Unsure"):
             value = 2
+        else:           # other
+            # print "other type"
+            value = 3
         return value
     else:
         print "error"
@@ -44,7 +47,7 @@ class MetaData:
         elif step == 1:
             file_path = "metainfo/dev/metadata_total.txt"
         elif step == 2:
-            file_path = "metainfo/test/meta_total.txt"
+            file_path = "metainfo/test/metadata_total.txt"
         else:
             print "error step"
             exit()
@@ -55,18 +58,26 @@ class MetaData:
             row = [t.strip() for t in line.split('\t')]
             self.data[row[0]] = row[1:]
 
-    def getQuestionType(self, qid):
+    def getQuestionCat(self, qid):          # Living
+        return self.data[qid][0]
+
+    def getQuestionType(self, qid):         # GENERAL/YES_NO
         return self.data[qid][2]
 
-    def getCommentType(self, cid, qid):
+    def getQuestionLabel(self, qid):        # YES/NO/Unsure
+        qType = self.getQuestionType(qid)
+        if qType == "GENERAL":
+            print "error"
+            exit()
+        elif qType == "YES_NO":
+            return labelToInt(self.data[qid][3], 1)
+
+    def getCommentType(self, cid, qid):     #
         qType = self.getQuestionType(qid)
         if qType == "GENERAL":
             return labelToInt(self.data[cid][1], 0)
         elif qType == "YES_NO":
             return labelToInt(self.data[cid][1]+"_"+self.data[cid][2], 1)
-
-    def getQuestionCat(self, qid):
-        return self.data[qid][0]
 
 
 class MyXMLHandler(xml.sax.ContentHandler):

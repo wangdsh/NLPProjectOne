@@ -15,8 +15,8 @@ from scipy import linalg, mat, dot
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-MIN_VALUE = 1e-8
-MAX_DIS = 10
+MIN_VALUE = 1e-5
+BLANK_VALUE = 1e-1
 
 class LSI_Util:
     def __init__(self):  # step 0 train  1 devel  2 test
@@ -34,7 +34,7 @@ class LSI_Util:
         fp = open(lda_result_file_path, "r")
         for line in fp:
             if line.strip() == "":
-                lda_list.append([float(MIN_VALUE) for i in range(10)])
+                lda_list.append([float(BLANK_VALUE) for i in range(10)])
             else:
                 vec = line.split('\t')
                 lda_list.append([float(num) for num in vec])
@@ -55,7 +55,7 @@ class LSI_Util:
 
         if len(self.model[line_num_one]) != len(self.model[line_num_two]):
             print line_num_one, line_num_two
-            return MAX_DIS
+            return MIN_VALUE
         else:
             return self.cosine(self.model[line_num_one], self.model[line_num_two])
 

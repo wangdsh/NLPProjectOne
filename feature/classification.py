@@ -42,15 +42,16 @@ class Classification:
         # get_y_train = [feature[-1] for feature in features]
         
         # select columns 1 through end
-        X_train = data[:, 1:-1]
+        X_train = data[:, 1:-1]         # cid features label
         y_train = data[:, -1]
         # y_train = getOneHotVec(y_train, GENERAL_NUM_CLASS)
             
         # f = open(devFile)
         # pre = np.loadtxt(f)
-        X_test = test_data[:, 1:-1]
-        y_test = test_data[:, -1]
+        X_test = test_data[:, 1:]       # cid features
+        # y_test = test_data[:, -1]
         self.cid = test_data[:, 0]
+        # self.qid = test_data[:, 1]
         
         # min_max_scaler = MinMaxScaler()
         # X_train = min_max_scaler.fit_transform(X_train)
@@ -100,7 +101,7 @@ class Classification:
             # n_estimators = [10, 100, 1000]
             # clf = GridSearchCV(RandomForestClassifier(), param_grid =
             # {'max_depth': max_depth, 'n_estimators': n_estimators})
-            clf = RandomForestClassifier(n_estimators = 1000, random_state=15325)
+            clf = RandomForestClassifier(n_estimators = 16, random_state=90)  # 90
             
         elif classifier == 'nb':
             clf = MultinomialNB()
@@ -121,27 +122,37 @@ class Classification:
         self.calculate_result(self.y_test, self.y_pred)
         print( "ACC:  %f " %accuracy_score(y_test,y_pred))
         '''
-    def int2Label(self, lbid):
-        if lbid == 0:
-            return "Good"
-        elif lbid == 1:
-            return "Bad"
-        elif lbid == 2:
-            return "Potential"
-        elif lbid == 3:
-            return "Dialogue"
-        elif lbid == 4:
-            return "Not English"
-        elif lbid == 5:
-            return "Other"
+    def int2Label(self, lbid, type):
+        if type == 0:   # general
+            if lbid == 0:
+                return "Good"
+            elif lbid == 1:
+                return "Bad"
+            elif lbid == 2:
+                return "Potential"
+            elif lbid == 3:
+                return "Dialogue"
+            elif lbid == 4:
+                return "Not English"
+            elif lbid == 5:
+                return "Other"
+            else:
+                return "error"
+        elif type == 1:         # yes no
+            if lbid == 0:
+                return "Yes"
+            elif lbid == 1:
+                return "No"
+            elif lbid == 2:
+                return "Unsure"
         else:
             return "error"
 
-    def getPreResult(self, outputFile):
+    def getPreResult(self, outputFile, type):
         fout = open(outputFile,"w+")
-        for idx, each in enumerate(self.y_pred):
-            # eachint = int(each)     # float
-            fout.write(self.cid[idx] + "\t" + self.int2Label(int(each)) + "\n")
+        if type == 0:   # taskA
+            for idx, each in enumerate(self.y_pred):
+                fout.write(self.cid[idx] + "\t" + self.int2Label(int(each), 0) + "\n")
         fout.close()        
    
     # this function is used for testing!
@@ -153,14 +164,21 @@ class Classification:
         print 'f1-score:{0:.3f}'.format(metrics.f1_score(self.y_test, self.y_pred))    
     
 if __name__ == "__main__":
-    if len(sys.argv) < 5:
+    if len(sys.argv) < 6:
         print "sys.argv[1]: classifier"  # svm and so on
         print "sys.argv[2]: trainFile"
         print "sys.argv[3]: devFile"
         print "sys.argv[3]: outputFile"
+        print "sys.argv[4]: task type(0 taskA, 1 taskB)"
         exit()
 
     cfInstance = Classification(sys.argv[1], sys.argv[2], sys.argv[3])
-    cfInstance.getPreResult(sys.argv[4])
-    
-# python classification.py svm ./train_total.pkl ./devel_total.pkl  ./devel_total_result.txt
+    cfInstance.getPreResult(sys.argv[4], int(sys.argv[5]))
+
+# devel
+# taskA
+# python classification.py essemble ./train_total_taskA.pkl ./devel_total_taskA.pkl  ./devel_subtaskA_result.txt 0
+
+# perl taskA
+# perl SemEval2015-task3-scorer-subtaskA.pl CQA-QL-devel-gold.txt devel_subtaskA_result.txt
+

@@ -16,28 +16,40 @@ TRAIN_LINES = 19141
 DEVEL_LINES = 1945
 TEST_LINES = 2305
 
-MIN_VALUE = 1e-8
+MIN_VALUE = 1e-2
 
 
-def main(step):     # 0 train, 1 devel, 2 test
+def main(step, task):     # 0 train, 1 devel, 2 test
 
     # feature
     file = ""
     if step == 0:
         file = "../Pretreatment/Total/pretreatment_one_result_train_total_3_id.txt"
-        pickle_general = "./train_general_data.pkl"
-        pickle_yes_no = "./train_yes_no_data.pkl"
-        pickle_total = "./train_total.pkl"
+        if task == 0:
+            pickle_total = "./train_total_taskA.pkl"
+        elif task == 1:
+            pickle_total = "./train_total_taskB.pkl"
+        else:
+            print "task type error"
+            exit()
     elif step == 1:
         file = "../Pretreatment/Total/pretreatment_one_result_devel_total_3_id.txt"
-        pickle_general = "./devel_general_data.pkl"
-        pickle_yes_no = "./devel_yes_no_data.pkl"
-        pickle_total = "./devel_total.pkl"
+        if task == 0:
+            pickle_total = "./devel_total_taskA.pkl"
+        elif task == 1:
+            pickle_total = "./devel_total_taskB.pkl"
+        else:
+            print "task type error"
+            exit()
     elif step == 2:
         file = "../Pretreatment/Total/pretreatment_one_result_test_total_3_id.txt"
-        pickle_general = "./test_general_data.pkl"
-        pickle_yes_no = "./test_yes_no_data.pkl"
-        pickle_total = "./test_total.pkl"
+        if task == 0:
+            pickle_total = "./test_total_taskA.pkl"
+        elif task == 1:
+            pickle_total = "./test_total_taskB.pkl"
+        else:
+            print "task type error"
+            exit()
     else:
         print 'error step!'
         return
@@ -131,14 +143,9 @@ def main(step):     # 0 train, 1 devel, 2 test
             feature.append(w2v.getSentenseSim(qcontent, content))
 
             # label
-            feature.append(meta.getCommentType(rowid, qid))
+            if step == 0:       # train
+                feature.append(meta.getCommentType(rowid, qid))
 
-            # print qid, meta.getQuestionType(qid)
-
-            # if meta.getQuestionType(qid) == "GENERAL":
-            #     features_gen.append(feature)
-            # else:
-            #     feature_yes_no.append(feature)
             features_total.append(feature)
 
         row_num += 1
@@ -162,32 +169,39 @@ def showFeatures(file_path):
     print "Show Features!"
     # get_x_train = [feature[1:-1] for feature in features]
     # get_y_train = [feature[-1] for feature in features]
-    tmp_fp = open("clf_input.txt", "wb")
-    for feature in features:
-        tmp_fp.write(str(feature[-1]) + " ")
-        tmp_fp.write(" ".join(str(each) for each in feature[1:-1]))
-        tmp_fp.write("\n")
-    tmp_fp.close()
+    # tmp_fp = open("clf_input.txt", "wb")
+    # for feature in features:
+    #     print feature
+    print len(features)
+    print features[0]
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print "sys.argv[1]: step! (0 train, 1 devel, 2 test)"
+        print "sys.argv[2]: task! (0 taskA, 1 taskB)"
         exit()
 
     step = int(sys.argv[1])
-    main(step)
-    # showFeatures("./train_general_data.pkl")
+    task = int(sys.argv[2])
+    main(step, task)
+    # showFeatures("./train_total_taskA.pkl")
 
 # bow w2v LDA TF-IDF URL Category_pro cuserComQuser
 
 # train
-# python getFeatureVector.py 0
+# taskA
+# python getFeatureVector.py 0 0
+
 
 # devel
-# python getFeatureVector.py 1
+# taskA
+# python getFeatureVector.py 1 0
+
 
 # test
-# python getFeatureVector.py 2
+# taskA
+# python getFeatureVector.py 2 0
+
 
     
 
